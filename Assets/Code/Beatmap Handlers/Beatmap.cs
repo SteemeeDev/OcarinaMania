@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Beatmap : MonoBehaviour
+public struct Beatmap
 {
-    public float name;
-    public 
+    public string name;
+    public string author;
+    public string creator;
+    public float length;
+    public float audioLeadIn;
+    public string difficulty;
+
+    public List<NoteInfo> notes;
 }
