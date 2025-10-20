@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 public class BeatmapManager : MonoBehaviour
 {
@@ -15,6 +13,8 @@ public class BeatmapManager : MonoBehaviour
     [SerializeField] Transform[] columns;
 
     AudioSource audioSource;
+
+    public float noteOffset = 0.5f; // Time in seconds for a note to travel from spawn to hit position
 
     private void Start()
     {
@@ -37,35 +37,46 @@ public class BeatmapManager : MonoBehaviour
     public IEnumerator PlayBeatmap(int beatmapIndex)
     {
         currentBeatmap = beatMaps[beatmapIndex];
+
+        audioSource.clip = Resources.Load<AudioClip>("Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile));
+
         float beatmapLength = currentBeatmap.notes[currentBeatmap.notes.Count - 1].time;
         float timeElapsed = 0f;
 
         int noteIndex = 0;
 
+        double audioPlayTime = AudioSettings.dspTime + currentBeatmap.audioLeadIn / 1000 + noteOffset;
+
+        audioSource.PlayScheduled(audioPlayTime);
 
         while (timeElapsed < beatmapLength)
         {
-            timeElapsed += Time.deltaTime;
-
-            if (timeElapsed * 1000 > currentBeatmap.audioLeadIn && !audioSource.isPlaying)
-                audioSource.Play();
-
-            if (timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
+            if (AudioSettings.dspTime >= audioPlayTime - noteOffset)
             {
-                GameObject noteObj = Instantiate(notePrefab);
-                noteObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].position;
-                noteIndex++;
-            }
+                timeElapsed += Time.deltaTime;
 
+                while (timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
+                {
+                    SpawnNote(noteIndex);
+                    noteIndex++;
+                }
+            }
             yield return null;
         }
+    }
+
+    void SpawnNote(int noteIndex)
+    {
+        GameObject noteObj = Instantiate(notePrefab);
+        noteObj.GetComponent<NoteHandler>().beatmapManager = this;
+        noteObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].position;
+        noteObj.SetActive(true);
     }
 
     public void ParseBeatmap(string filePath)
     {
         Beatmap beatmapObj = new Beatmap();
         beatmapObj.notes = new List<NoteInfo>();
-        beatMaps.Add(beatmapObj);
 
         Debug.Log("PARSING BEATMAP...");
 
@@ -118,6 +129,10 @@ public class BeatmapManager : MonoBehaviour
 
             switch (key)
             {
+                case "AudioFilename":
+                    beatmapObj.musicFile = value;
+                    Debug.Log("Found music file: " + value);
+                    break;
                 case "AudioLeadIn":
                     beatmapObj.audioLeadIn = float.Parse(value);
                     break;
@@ -257,5 +272,7 @@ public class BeatmapManager : MonoBehaviour
         }
 
         reader.Close();
+
+        beatMaps.Add(beatmapObj);
     }
 }
