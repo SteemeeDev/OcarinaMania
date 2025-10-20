@@ -86,6 +86,7 @@ public class BeatmapManager : MonoBehaviour
 
         int loopIndex = 0; // Safety loop index
 
+        // ------------------------------------------------------------ //
         // Reach the general section
         while (!reader.EndOfStream)
         {
@@ -123,7 +124,7 @@ public class BeatmapManager : MonoBehaviour
             }
         }
 
-
+        // ------------------------------------------------------------ //
         // Reach the metadata section
         while (!reader.EndOfStream)
         {
@@ -172,6 +173,7 @@ public class BeatmapManager : MonoBehaviour
 
         loopIndex = 0;
 
+        // ------------------------------------------------------------ 
         // Reach the notes section
         while (!reader.EndOfStream)
         {
