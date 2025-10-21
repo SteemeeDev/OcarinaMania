@@ -69,6 +69,7 @@ public class BeatmapManager : MonoBehaviour
     {
         GameObject noteObj = Instantiate(notePrefab);
         noteObj.GetComponent<NoteHandler>().beatmapManager = this;
+        noteObj.GetComponent<NoteHandler>().noteInfo = currentBeatmap.notes[noteIndex];
         noteObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].position;
         noteObj.SetActive(true);
     }
@@ -207,6 +208,8 @@ public class BeatmapManager : MonoBehaviour
         int posX = -999;
         int posY = -999;
         float time = -999f;
+        int type = -999;
+        int endTime = -999;
 
         int valueIndex = 0; // The values are seperated by commas, in the order of posX, posY, time, type, hitSound, objectParams, hitSample
         string num = ""; // The number at the valueIndex
@@ -219,7 +222,7 @@ public class BeatmapManager : MonoBehaviour
         while (!reader.EndOfStream)
         {
             currentChar = (char)reader.Read();
-            if (currentChar != ',')
+            if (currentChar != ',' && currentChar != ':')
             {
                 num += currentChar;
             }
@@ -236,10 +239,22 @@ public class BeatmapManager : MonoBehaviour
                     case 2:
                         time = float.Parse(num);
                         break;
+                    case 3:
+                        type = Int32.Parse(num);
+                        break;
+                    case 4:
+                        // We don't care about hitsound for now
+                        break;
+                    case 5:
+                        if (type == 128) // Hold note
+                        {
+                            endTime = Int32.Parse(num);
+                        }
+                        break;
                 }
                 num = "";
                 valueIndex++;
-                if (valueIndex >= 3)
+                if (valueIndex >= 6)
                 {
                     valueIndex = 0;
 
@@ -254,8 +269,16 @@ public class BeatmapManager : MonoBehaviour
                     beatmapObj.notes.Add(new NoteInfo
                     {
                         columnIndex = (int)Mathf.Floor(posX * 4 / 512),
-                        time = time
+                        time = time,
+                        type = type,
+                        endTime = endTime
                     });
+
+                    posX = -999;
+                    posY = -999;
+                    time = -999f;
+                    type = -999;
+                    endTime = -999;
 
                     reader.ReadLine(); // Move to next line
                 }

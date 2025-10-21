@@ -5,10 +5,26 @@ using UnityEngine;
 public class NoteHandler : MonoBehaviour
 {
     public BeatmapManager beatmapManager;
+    public NoteInfo noteInfo;
     float timeAlive = 0f;
 
-    private void Start()
+    SpriteRenderer spriteRenderer;
+
+    private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (noteInfo.type == 128)
+        {
+            Debug.Log("HOLD NOTE!");
+            spriteRenderer.color = Color.yellow;
+        }else if (noteInfo.type == 1)
+        {
+            spriteRenderer.color = Color.blue;
+        }
+
+        Debug.Log(noteInfo.type);
+
         StartCoroutine(moveNote());
     }
 
