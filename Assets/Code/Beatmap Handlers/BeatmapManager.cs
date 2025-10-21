@@ -57,7 +57,7 @@ public class BeatmapManager : MonoBehaviour
 
                 while (timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
                 {
-                    SpawnNote(noteIndex);
+                    SpawnNote(noteIndex, timeElapsed);
                     noteIndex++;
                 }
             }
@@ -65,13 +65,23 @@ public class BeatmapManager : MonoBehaviour
         }
     }
 
-    void SpawnNote(int noteIndex)
+    void SpawnNote(int noteIndex, float elapsed)
     {
         GameObject noteObj = Instantiate(notePrefab);
         noteObj.GetComponent<NoteHandler>().beatmapManager = this;
         noteObj.GetComponent<NoteHandler>().noteInfo = currentBeatmap.notes[noteIndex];
         noteObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].position;
-        noteObj.SetActive(true);
+        StartCoroutine(noteObj.GetComponent<NoteHandler>().moveNote(0f));
+
+        if (currentBeatmap.notes[noteIndex].type == 128)
+        {
+            GameObject holdEndObj = Instantiate(notePrefab);
+            holdEndObj.GetComponent<NoteHandler>().beatmapManager = this;
+            holdEndObj.GetComponent<NoteHandler>().noteInfo = currentBeatmap.notes[noteIndex];
+            holdEndObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].position;
+            Debug.Log(currentBeatmap.notes[noteIndex].endTime - elapsed * 1000);
+            StartCoroutine(holdEndObj.GetComponent<NoteHandler>().moveNote((float)currentBeatmap.notes[noteIndex].endTime - elapsed * 1000f));
+        }
     }
 
     public void ParseBeatmap(string filePath)

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,26 +11,30 @@ public class NoteHandler : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    public IEnumerator moveNote(float delayMS)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (noteInfo.type == 128)
         {
-            Debug.Log("HOLD NOTE!");
             spriteRenderer.color = Color.yellow;
-        }else if (noteInfo.type == 1)
+            name = "Hold Note";
+        }
+        else if (noteInfo.type == 1)
         {
             spriteRenderer.color = Color.blue;
+            name = "Normal Note";
         }
 
-        Debug.Log(noteInfo.type);
+        if (delayMS > 0)
+        {
+            spriteRenderer.color = Color.yellow * 0.5f;
+            name = "Hold End Note";
+            Debug.Log("HOLD END NOTE SPAWNED");
+        }
 
-        StartCoroutine(moveNote());
-    }
+        yield return new WaitForSeconds(delayMS / 1000);
 
-    IEnumerator moveNote()
-    {
         float startY = transform.position.y;
 
         while (true)
@@ -39,6 +44,7 @@ public class NoteHandler : MonoBehaviour
             if (timeAlive >= beatmapManager.noteOffset)
             {
                 Destroy(gameObject);
+                break;
             }
             yield return null;
         }
