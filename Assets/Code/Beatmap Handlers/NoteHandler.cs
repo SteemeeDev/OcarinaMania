@@ -11,6 +11,16 @@ public class NoteHandler : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
+    public Transform endHoldPoint;
+    LineRenderer lineRenderer;
+    bool reachedEnd = false;
+
+    private void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
+
     public IEnumerator moveNote(float delayMS)
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -20,7 +30,7 @@ public class NoteHandler : MonoBehaviour
             spriteRenderer.color = Color.yellow;
             name = "Hold Note";
         }
-        else if (noteInfo.type == 1)
+        else if (noteInfo.type <= 64) // We treat any other note type as just a normal note 
         {
             spriteRenderer.color = Color.blue;
             name = "Normal Note";
@@ -40,13 +50,33 @@ public class NoteHandler : MonoBehaviour
         while (true)
         {
             timeAlive += Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, -4f, timeAlive / beatmapManager.noteOffset), transform.position.z);
+
+            if (endHoldPoint != null) updateLine();
+
             if (timeAlive >= beatmapManager.noteOffset)
             {
-                Destroy(gameObject);
-                break;
+                reachedEnd = true;
+                beatmapManager.columns[noteInfo.columnIndex].notes.Remove(this);
+                if (endHoldPoint == null)
+                {
+                    Destroy(gameObject);
+                    break;
+                }
             }
+            else if (reachedEnd == false)
+                transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, -4f, timeAlive / beatmapManager.noteOffset), transform.position.z);
+            
             yield return null;
+        }
+    }
+
+    void updateLine()
+    {
+        if (endHoldPoint != null)
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1,endHoldPoint.position);
         }
     }
 }
