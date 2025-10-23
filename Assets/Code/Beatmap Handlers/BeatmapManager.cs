@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class BeatmapManager : MonoBehaviour
 {
+    [SerializeField] string[] beatMapNames;
+    [SerializeField] int mapIndex = 0;
+
     [SerializeField] List<Beatmap> beatMaps = new List<Beatmap>();
     [SerializeField] Beatmap currentBeatmap;
     [SerializeField] GameObject notePrefab;
@@ -19,23 +22,32 @@ public class BeatmapManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        for (int i = 0; i < beatMapNames.Length; i++)
+        {
+            ParseBeatmap(Application.dataPath + @"/Beatmaps/" + beatMapNames[i]);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ParseBeatmap(Application.dataPath + @"/Beatmaps/xi - Happy End of the World (Blocko) [4K Insane].osu");
-            currentBeatmap = beatMaps[0];
-        }
-
         if (Input.GetKeyDown(KeyCode.Space)){
-            StartCoroutine(PlayBeatmap(0));
+            StopAllCoroutines();
+            currentBeatmap = beatMaps[mapIndex];
+            StartCoroutine(PlayBeatmap(mapIndex));
         }
     }
 
     public IEnumerator PlayBeatmap(int beatmapIndex)
     {
+        for (int i = 0; i < columns.Length; i++)
+        {
+            for(int j = 0; j < columns[i].notes.Count - 1; i++)
+            {
+                Destroy(columns[i].notes[j].gameObject);
+                columns[i].notes.RemoveAt(j);
+            }
+        }
+
         currentBeatmap = beatMaps[beatmapIndex];
 
         audioSource.clip = Resources.Load<AudioClip>("Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile));
@@ -67,26 +79,32 @@ public class BeatmapManager : MonoBehaviour
 
     void SpawnNote(int noteIndex, float elapsed)
     {
+
         GameObject noteObj = Instantiate(notePrefab);
-        noteObj.GetComponent<NoteHandler>().beatmapManager = this;
-        noteObj.GetComponent<NoteHandler>().noteInfo = currentBeatmap.notes[noteIndex];
-        noteObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].transform.position;
-        noteObj.transform.parent = columns[currentBeatmap.notes[noteIndex].columnIndex].transform;
-        columns[currentBeatmap.notes[noteIndex].columnIndex].notes.Add(noteObj.GetComponent<NoteHandler>());
+        NoteInfo currentNoteInfo = currentBeatmap.notes[noteIndex];
+        NoteHandler currentNoteHandler = noteObj.GetComponent<NoteHandler>();
+
+        currentNoteHandler.beatmapManager = this;
+        currentNoteHandler.noteInfo = currentNoteInfo;
+        noteObj.transform.position = columns[currentNoteInfo.columnIndex].transform.position;
+        noteObj.transform.parent = columns[currentNoteInfo.columnIndex].transform;
+        columns[currentNoteInfo.columnIndex].notes.Add(currentNoteHandler);
 
         if (currentBeatmap.notes[noteIndex].type == 128)
-        {
+        {    
             GameObject holdEndObj = Instantiate(notePrefab);
-            noteObj.GetComponent<NoteHandler>().endHoldPoint = holdEndObj.transform;
-            holdEndObj.GetComponent<NoteHandler>().beatmapManager = this;
-            holdEndObj.GetComponent<NoteHandler>().noteInfo = currentBeatmap.notes[noteIndex];
-            holdEndObj.transform.position = columns[currentBeatmap.notes[noteIndex].columnIndex].transform.position;
-            columns[currentBeatmap.notes[noteIndex].columnIndex].notes.Add(holdEndObj.GetComponent<NoteHandler>());
-            holdEndObj.transform.parent = columns[currentBeatmap.notes[noteIndex].columnIndex].transform;
-            StartCoroutine(holdEndObj.GetComponent<NoteHandler>().moveNote((float)currentBeatmap.notes[noteIndex].endTime - elapsed * 1000f));
+            NoteHandler holdEndNoteHandler = holdEndObj.GetComponent<NoteHandler>();
+
+            currentNoteHandler.endHoldPoint = holdEndObj.transform;
+            holdEndNoteHandler.beatmapManager = this;
+            holdEndNoteHandler.noteInfo = currentNoteInfo;
+            holdEndObj.transform.position = columns[currentNoteInfo.columnIndex].transform.position;
+            columns[currentNoteInfo.columnIndex].notes.Add(holdEndNoteHandler);
+            holdEndObj.transform.parent = columns[currentNoteInfo.columnIndex].transform;
+            StartCoroutine(holdEndNoteHandler.moveNote((float)currentNoteInfo.endTime - elapsed * 1000f));
         }
         
-        StartCoroutine(noteObj.GetComponent<NoteHandler>().moveNote(0f));
+        StartCoroutine(currentNoteHandler.moveNote(0f));
     }
 
     public void ParseBeatmap(string filePath)
