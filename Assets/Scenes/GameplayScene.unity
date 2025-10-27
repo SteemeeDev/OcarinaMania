@@ -830,6 +830,7 @@ MonoBehaviour:
   - {fileID: 1487013867}
   - {fileID: 1244930383}
   noteOffset: 0.75
+  noteTapDistance: 0.2
 --- !u!82 &1149674179
 AudioSource:
   m_ObjectHideFlags: 0
@@ -840,7 +841,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 029b0eec02b967b478e8bb16b6e5e78a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 71e4cba29452b0d418206ef5bec8d425, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
