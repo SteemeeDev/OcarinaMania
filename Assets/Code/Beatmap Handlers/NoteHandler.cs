@@ -15,6 +15,8 @@ public class NoteHandler : MonoBehaviour
     LineRenderer lineRenderer;
     bool reachedEnd = false;
 
+    public bool tappable = false;
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -65,28 +67,10 @@ public class NoteHandler : MonoBehaviour
             else if (reachedEnd == false)
                 transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, -4f, timeAlive / beatmapManager.noteOffset), transform.position.z);
 
-            if (Mathf.Abs(4 - transform.position.y) <= beatmapManager.noteTapDistance)
+            if (Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, beatmapManager.tapTarget.position.y)) <= beatmapManager.noteTapDistance)
             {
                 spriteRenderer.color = Color.white;
-            }
-            else
-            {
-                if (noteInfo.type == 128)
-                {
-                    spriteRenderer.color = Color.yellow;
-                    name = "Hold Note";
-                }
-                else if (noteInfo.type <= 64) // We treat any other note type as just a normal note 
-                {
-                    spriteRenderer.color = Color.blue;
-                    name = "Normal Note";
-                }
-                if (delayMS > 0)
-                {
-                    spriteRenderer.color = Color.yellow * 0.5f;
-                    name = "Hold End Note";
-                    Debug.Log("HOLD END NOTE SPAWNED");
-                }
+                tappable = true;
             }
             
             yield return null;

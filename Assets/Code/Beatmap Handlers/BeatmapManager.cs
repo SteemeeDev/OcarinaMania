@@ -20,6 +20,8 @@ public class BeatmapManager : MonoBehaviour
     public float noteOffset = 0.5f; // Time in seconds for a note to travel from spawn to hit position
     public float noteTapDistance = 0.2f; // Distance to the tap target (both ways), where tapping the note is valid
 
+    public Transform tapTarget;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
