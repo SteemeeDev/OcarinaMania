@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class NoteHandler : MonoBehaviour
 {
-    public BeatmapManager beatmapManager;
+    public BeatmapPlayer _beatmapPlayer;
+
     public NoteInfo noteInfo;
     float timeAlive = 0f;
 
@@ -54,22 +55,33 @@ public class NoteHandler : MonoBehaviour
 
             if (endHoldPoint != null) updateLine();
 
-            if (timeAlive >= beatmapManager.noteOffset)
+            if (timeAlive >= _beatmapPlayer.noteOffset * 1.1f)
             {
                 reachedEnd = true;
-                beatmapManager.columns[noteInfo.columnIndex].notes.Remove(this);
+                _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
                 if (endHoldPoint == null)
                 {
+                    _beatmapPlayer.points--;
+                    _beatmapPlayer.pointCounter.text = _beatmapPlayer.points.ToString();
                     Destroy(gameObject);
                     break;
                 }
             }
-            else if (reachedEnd == false)
-                transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, -4f, timeAlive / beatmapManager.noteOffset), transform.position.z);
-
-            if (Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, beatmapManager.tapTarget.position.y)) <= beatmapManager.noteTapDistance)
+            else
             {
-                spriteRenderer.color = Color.white;
+                if (_beatmapPlayer == null) Debug.LogWarning("GAMIGN!");
+                if (reachedEnd == false)
+                {
+                    transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, _beatmapPlayer.tapTarget.position.y, timeAlive / _beatmapPlayer.noteOffset), transform.position.z);
+                }
+                else
+                {
+                    transform.position -= new Vector3(0, 1, 0) * Time.deltaTime;
+                }
+            }
+            if (Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, _beatmapPlayer.tapTarget.position.y)) <= _beatmapPlayer.noteTapDistance)
+            {
+               // spriteRenderer.color = Color.white;
                 tappable = true;
             }
             

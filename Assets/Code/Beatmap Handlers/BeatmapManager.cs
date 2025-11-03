@@ -7,107 +7,14 @@ using UnityEngine;
 public class BeatmapManager : MonoBehaviour
 {
     [SerializeField] string[] beatMapNames;
-    [SerializeField] int mapIndex = 0;
-
-    [SerializeField] List<Beatmap> beatMaps = new List<Beatmap>();
-    [SerializeField] Beatmap currentBeatmap;
-    [SerializeField] GameObject notePrefab;
-
-    public Column[] columns;
-
-    AudioSource audioSource;
-
-    public float noteOffset = 0.5f; // Time in seconds for a note to travel from spawn to hit position
-    public float noteTapDistance = 0.2f; // Distance to the tap target (both ways), where tapping the note is valid
-
-    public Transform tapTarget;
+    public List<Beatmap> beatMaps = new List<Beatmap>();
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < beatMapNames.Length; i++)
         {
             ParseBeatmap(Application.dataPath + @"/Beatmaps/" + beatMapNames[i]);
         }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)){
-            StopAllCoroutines();
-            currentBeatmap = beatMaps[mapIndex];
-            StartCoroutine(PlayBeatmap(mapIndex));
-        }
-    }
-
-    public IEnumerator PlayBeatmap(int beatmapIndex)
-    {
-        for (int i = 0; i < columns.Length; i++)
-        {
-            for(int j = 0; j < columns[i].notes.Count - 1; i++)
-            {
-                Destroy(columns[i].notes[j].gameObject);
-                columns[i].notes.RemoveAt(j);
-            }
-        }
-
-        currentBeatmap = beatMaps[beatmapIndex];
-
-        audioSource.clip = Resources.Load<AudioClip>("Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile));
-
-        float beatmapLength = currentBeatmap.notes[currentBeatmap.notes.Count - 1].time;
-        float timeElapsed = 0f;
-
-        int noteIndex = 0;
-
-        double audioPlayTime = AudioSettings.dspTime + currentBeatmap.audioLeadIn / 1000 + noteOffset;
-
-        audioSource.PlayScheduled(audioPlayTime);
-
-        while (timeElapsed < beatmapLength)
-        {
-            if (AudioSettings.dspTime >= audioPlayTime - noteOffset)
-            {
-                timeElapsed += Time.deltaTime;
-
-                while (timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
-                {
-                    SpawnNote(noteIndex, timeElapsed);
-                    noteIndex++;
-                }
-            }
-            yield return null;
-        }
-    }
-
-    void SpawnNote(int noteIndex, float elapsed)
-    {
-
-        GameObject noteObj = Instantiate(notePrefab);
-        NoteInfo currentNoteInfo = currentBeatmap.notes[noteIndex];
-        NoteHandler currentNoteHandler = noteObj.GetComponent<NoteHandler>();
-
-        currentNoteHandler.beatmapManager = this;
-        currentNoteHandler.noteInfo = currentNoteInfo;
-        noteObj.transform.position = columns[currentNoteInfo.columnIndex].transform.position;
-        noteObj.transform.parent = columns[currentNoteInfo.columnIndex].transform;
-        columns[currentNoteInfo.columnIndex].notes.Add(currentNoteHandler);
-
-        if (currentBeatmap.notes[noteIndex].type == 128)
-        {    
-            GameObject holdEndObj = Instantiate(notePrefab);
-            NoteHandler holdEndNoteHandler = holdEndObj.GetComponent<NoteHandler>();
-
-            currentNoteHandler.endHoldPoint = holdEndObj.transform;
-            holdEndNoteHandler.beatmapManager = this;
-            holdEndNoteHandler.noteInfo = currentNoteInfo;
-            holdEndObj.transform.position = columns[currentNoteInfo.columnIndex].transform.position;
-            columns[currentNoteInfo.columnIndex].notes.Add(holdEndNoteHandler);
-            holdEndObj.transform.parent = columns[currentNoteInfo.columnIndex].transform;
-            StartCoroutine(holdEndNoteHandler.moveNote((float)currentNoteInfo.endTime - elapsed * 1000f));
-        }
-        
-        StartCoroutine(currentNoteHandler.moveNote(0f));
     }
 
     public void ParseBeatmap(string filePath)
