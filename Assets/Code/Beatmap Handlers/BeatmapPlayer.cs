@@ -55,12 +55,15 @@ public class BeatmapPlayer : MonoBehaviour
             {
                 if (columns[i].notes.Count > 0 && columns[i].notes[0].tappable)
                 {
-                    GameObject temp = columns[i].notes[0].gameObject;
-                    temp.GetComponent<NoteHandler>().StopAllCoroutines();
-                    Destroy(temp);
-                    columns[i].notes.RemoveAt(0);  
-                    points++;
-                    pointCounter.text = points.ToString();
+                    if (columns[i].notes[0].noteInfo.type <= 64)
+                    {
+                        GameObject temp = columns[i].notes[0].gameObject;
+                        temp.GetComponent<NoteHandler>().StopAllCoroutines();
+                        Destroy(temp);
+                        columns[i].notes.RemoveAt(0);  
+                        points++;
+                        pointCounter.text = points.ToString();
+                    }
                 }
                 keys[i].transform.localScale = Vector2.one * 1.1f;
             }
