@@ -1026,6 +1026,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: notepaper
       objectReference: {fileID: 0}
+    - target: {fileID: 5805293582631683396, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
+    - target: {fileID: 5805293582631683396, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1473937876066529352, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
+    - target: {fileID: 7319671977350488424, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b7ee06c5ee2a534aa612529cd15c2ba, type: 2}
+    - target: {fileID: 7319671977350488424, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1819219029239496711, guid: 5b7ee06c5ee2a534aa612529cd15c2ba, type: 2}
+    - target: {fileID: 7319671977350488424, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190082
+      objectReference: {fileID: 0}
     - target: {fileID: 7447835993969521272, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_SortingOrder
       value: 1
