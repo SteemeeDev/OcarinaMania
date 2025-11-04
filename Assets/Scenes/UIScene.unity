@@ -1046,6 +1046,14 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4278190082
       objectReference: {fileID: 0}
+    - target: {fileID: 7399484022915084098, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447835993969521272, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c0f9e146b9d95e244919a10dea6ea077, type: 3}
     - target: {fileID: 7447835993969521272, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -1053,6 +1061,22 @@ PrefabInstance:
     - target: {fileID: 7870486468958471524, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785021156062712079, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.04657155
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785021156062712079, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.032936025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785021156062712079, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.23285773
+      objectReference: {fileID: 0}
+    - target: {fileID: 8785021156062712079, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.302
       objectReference: {fileID: 0}
     - target: {fileID: 9003043263375348418, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_LocalScale.x
@@ -1117,6 +1141,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1655270929664326238, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 328825510272587883}
+    - targetCorrespondingSourceObject: {fileID: 7399484022915084098, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 328825510272587885}
   m_SourcePrefab: {fileID: 100100000, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
 --- !u!1 &328825510272587882 stripped
 GameObject:
@@ -1144,6 +1171,62 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &328825510272587884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7399484022915084098, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+  m_PrefabInstance: {fileID: 328825510272587881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!331 &328825510272587885
+SpriteMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328825510272587884}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_MaskAlphaCutoff: 0.2
+  m_FrontSortingLayerID: 0
+  m_BackSortingLayerID: 0
+  m_FrontSortingLayer: 0
+  m_BackSortingLayer: 0
+  m_FrontSortingOrder: 0
+  m_BackSortingOrder: 0
+  m_IsCustomRangeActive: 0
+  m_SpriteSortPoint: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
