@@ -15,7 +15,7 @@ public class NoteHandler : MonoBehaviour
     public Transform endHoldPoint;
     LineRenderer lineRenderer;
     bool reachedEnd = false;
-
+    bool holdEndNote = false;
     public bool tappable = false;
 
     private void Start()
@@ -28,60 +28,70 @@ public class NoteHandler : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (noteInfo.type == 128)
+        if (noteInfo.type == noteType.holdNote)
         {
             spriteRenderer.color = Color.yellow;
             name = "Hold Note";
+            Debug.Log("AHHHH");
         }
-        else if (noteInfo.type <= 64) // We treat any other note type as just a normal note 
+        else if (noteInfo.type == noteType.tapNote)
         {
             spriteRenderer.color = Color.blue;
             name = "Normal Note";
         }
-        if (delayMS > 0)
+        if (noteInfo.type == noteType.endHoldNote)
         {
             spriteRenderer.color = Color.yellow * 0.5f;
             name = "Hold End Note";
-            Debug.Log("HOLD END NOTE SPAWNED");
+            holdEndNote = true;
         }
-
+           
         yield return new WaitForSeconds(delayMS / 1000);
 
         float startY = transform.position.y;
+        float distToTapTarget;
 
         while (true)
         {
+            if (this == null) break;
+
             timeAlive += Time.deltaTime;
+
+            distToTapTarget = Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, _beatmapPlayer.tapTarget.position.y));
 
             if (endHoldPoint != null) updateLine();
 
-            if (timeAlive >= _beatmapPlayer.noteOffset * 1.1f)
+            if (timeAlive >= _beatmapPlayer.noteOffset)
             {
-                reachedEnd = true;
-                _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
-                if (endHoldPoint == null)
+                if (noteInfo.type == noteType.tapNote || noteInfo.type == noteType.endHoldNote)
                 {
-                    _beatmapPlayer.points--;
-                    _beatmapPlayer.pointCounter.text = _beatmapPlayer.points.ToString();
-                    Destroy(gameObject);
-                    break;
+                    if (noteInfo.type == noteType.endHoldNote) reachedEnd = true;
+
+                    transform.position = new Vector3(
+                        transform.position.x, 
+                        Mathf.Lerp(startY, _beatmapPlayer.secondTapTarget.position.y, timeAlive / (_beatmapPlayer.noteOffset * 2f)), 
+                        transform.position.z
+                    );
+
+                    if (timeAlive > _beatmapPlayer.noteOffset + _beatmapPlayer.noteOffset * 0.2f)
+                    {
+                        _beatmapPlayer.points--;
+                        _beatmapPlayer.pointCounter.text = _beatmapPlayer.points.ToString();
+                        _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
+                        Destroy(gameObject);
+                        break;
+                    }
                 }
             }
             else
             {
                 if (_beatmapPlayer == null) Debug.LogWarning("GAMIGN!");
-                if (reachedEnd == false)
-                {
                     transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, _beatmapPlayer.tapTarget.position.y, timeAlive / _beatmapPlayer.noteOffset), transform.position.z);
-                }
-                else
-                {
-                    transform.position -= new Vector3(0, 1, 0) * Time.deltaTime;
-                }
             }
-            if (Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, _beatmapPlayer.tapTarget.position.y)) <= _beatmapPlayer.noteTapDistance)
+            if (distToTapTarget <= _beatmapPlayer.noteTapDistance)
             {
-               // spriteRenderer.color = Color.white;
+                spriteRenderer.color = Color.white;
+
                 tappable = true;
             }
             

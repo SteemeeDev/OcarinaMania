@@ -32,6 +32,7 @@ public class BeatmapPlayer : MonoBehaviour
     public float noteTapDistance = 0.2f; 
 
     public Transform tapTarget;
+    public Transform secondTapTarget;
 
     Coroutine playerRoutine;
 
@@ -55,7 +56,7 @@ public class BeatmapPlayer : MonoBehaviour
             {
                 if (columns[i].notes.Count > 0 && columns[i].notes[0].tappable)
                 {
-                    if (columns[i].notes[0].noteInfo.type <= 64)
+                    if (columns[i].notes[0].noteInfo.type == noteType.tapNote)
                     {
                         GameObject temp = columns[i].notes[0].gameObject;
                         temp.GetComponent<NoteHandler>().StopAllCoroutines();
@@ -64,12 +65,29 @@ public class BeatmapPlayer : MonoBehaviour
                         points++;
                         pointCounter.text = points.ToString();
                     }
+
+                    if (columns[i].notes[0].noteInfo.type == noteType.holdNote)
+                    {
+
+                    }
                 }
                 keys[i].transform.localScale = Vector2.one * 1.1f;
             }
             else if (Input.GetKeyUp(keyBinds[i]))
             {
                 keys[i].transform.localScale = Vector2.one;
+                if (columns[i].notes.Count > 0 && columns[i].notes[0].tappable)
+                {
+                    if (columns[i].notes[0].noteInfo.type == noteType.endHoldNote)
+                    {
+                        GameObject temp = columns[i].notes[0].gameObject;
+                        temp.GetComponent<NoteHandler>().StopAllCoroutines();
+                        Destroy(temp);
+                        columns[i].notes.RemoveAt(0);
+                        points++;
+                        pointCounter.text = points.ToString();
+                    }
+                }
             }
         }
     }
@@ -118,7 +136,6 @@ public class BeatmapPlayer : MonoBehaviour
 
     void SpawnNote(int noteIndex, float elapsed)
     {
-
         GameObject noteObj = Instantiate(notePrefab);
         NoteInfo currentNoteInfo = currentBeatmap.notes[noteIndex];
         NoteHandler currentNoteHandler = noteObj.GetComponent<NoteHandler>();
@@ -129,7 +146,7 @@ public class BeatmapPlayer : MonoBehaviour
         noteObj.transform.parent = columns[currentNoteInfo.columnIndex].transform;
         columns[currentNoteInfo.columnIndex].notes.Add(currentNoteHandler);
 
-        if (currentBeatmap.notes[noteIndex].type == 128)
+        if (currentNoteInfo.type == noteType.holdNote)
         {
             GameObject holdEndObj = Instantiate(notePrefab);
             NoteHandler holdEndNoteHandler = holdEndObj.GetComponent<NoteHandler>();

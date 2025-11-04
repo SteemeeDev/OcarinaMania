@@ -151,7 +151,8 @@ public class BeatmapManager : MonoBehaviour
         int posX = -999;
         int posY = -999;
         float time = -999f;
-        int type = -999;
+        int numType = -999;
+        noteType _noteType = noteType.tapNote;
         int endTime = -999;
 
         int valueIndex = 0; // The values are seperated by commas, in the order of posX, posY, time, type, hitSound, objectParams, hitSample
@@ -183,14 +184,17 @@ public class BeatmapManager : MonoBehaviour
                         time = float.Parse(num);
                         break;
                     case 3:
-                        type = Int32.Parse(num);
+                        numType = Int32.Parse(num);
+                        if (numType <= 64) _noteType = noteType.tapNote;
+                        if (numType == 128) _noteType = noteType.holdNote;
                         break;
                     case 4:
                         // We don't care about hitsound for now
                         break;
                     case 5:
-                        if (type == 128) // Hold note
+                        if (numType == 128)
                         {
+                            _noteType = noteType.endHoldNote;
                             endTime = Int32.Parse(num);
                         }
                         break;
@@ -213,14 +217,14 @@ public class BeatmapManager : MonoBehaviour
                     {
                         columnIndex = (int)Mathf.Floor(posX * 4 / 512),
                         time = time,
-                        type = type,
+                        type = _noteType,
                         endTime = endTime
                     });
 
                     posX = -999;
                     posY = -999;
                     time = -999f;
-                    type = -999;
+                    numType = -999;
                     endTime = -999;
 
                     reader.ReadLine(); // Move to next line
