@@ -1044,8 +1044,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.09, y: 1.09, z: 1.09}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1220,6 +1220,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5805293582631683396, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+      propertyPath: m_text
+      value: Titlecard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5805293582631683396, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
@@ -1261,7 +1265,7 @@ PrefabInstance:
       objectReference: {fileID: -1819219029239496711, guid: 5b7ee06c5ee2a534aa612529cd15c2ba, type: 2}
     - target: {fileID: 7319671977350488424, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4294967295
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 7399484022915084098, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
       propertyPath: m_IsActive
