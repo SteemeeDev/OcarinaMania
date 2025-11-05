@@ -185,16 +185,16 @@ public class BeatmapManager : MonoBehaviour
                         break;
                     case 3:
                         numType = Int32.Parse(num);
+                        //Debug.Log(numType);
                         if (numType <= 64) _noteType = noteType.tapNote;
-                        if (numType == 128) _noteType = noteType.holdNote;
+                        if (numType >= 128) _noteType = noteType.holdNote;
                         break;
                     case 4:
                         // We don't care about hitsound for now
                         break;
                     case 5:
-                        if (numType == 128)
+                        if (_noteType == noteType.holdNote)
                         {
-                            _noteType = noteType.endHoldNote;
                             endTime = Int32.Parse(num);
                         }
                         break;
@@ -205,13 +205,18 @@ public class BeatmapManager : MonoBehaviour
                 {
                     valueIndex = 0;
 
-                    /*Debug.Log(
-                        $"Note found!" +
-                        $"\nPOS X: " + posX.ToString() +
-                        $"\nColumn: " + Mathf.Floor(posX * 4 / 512).ToString() +
-                        $"\nPOS Y: " + posY.ToString() +
-                        $"\nTIME: " + time.ToString()
-                    );*/
+                    /*if (_noteType == noteType.endHoldNote)
+                    {
+                        Debug.Log(
+                            $"Note found!" +
+                            $"\nPOS X: " + posX.ToString() +
+                            $"\nColumn: " + Mathf.Floor(posX * 4 / 512).ToString() +
+                            $"\nPOS Y: " + posY.ToString() +
+                            $"\nTIME: " + time.ToString() +
+                            $"\nTYPE: " + _noteType.ToString() +
+                            $"\nENDTIME: " + endTime.ToString()
+                        );
+                    }*/
 
                     beatmapObj.notes.Add(new NoteInfo
                     {

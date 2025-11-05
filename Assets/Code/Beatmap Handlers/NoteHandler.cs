@@ -12,11 +12,12 @@ public class NoteHandler : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
 
-    public Transform endHoldPoint;
     LineRenderer lineRenderer;
     bool reachedEnd = false;
-    bool holdEndNote = false;
     public bool tappable = false;
+    [Header("Hold note specific")]
+    public NoteHandler holdEndNote;
+    public bool holdingNote;
 
     private void Start()
     {
@@ -32,7 +33,6 @@ public class NoteHandler : MonoBehaviour
         {
             spriteRenderer.color = Color.yellow;
             name = "Hold Note";
-            Debug.Log("AHHHH");
         }
         else if (noteInfo.type == noteType.tapNote)
         {
@@ -43,7 +43,6 @@ public class NoteHandler : MonoBehaviour
         {
             spriteRenderer.color = Color.yellow * 0.5f;
             name = "Hold End Note";
-            holdEndNote = true;
         }
            
         yield return new WaitForSeconds(delayMS / 1000);
@@ -55,42 +54,63 @@ public class NoteHandler : MonoBehaviour
         {
             if (this == null) break;
 
-            timeAlive += Time.deltaTime;
+            if (!holdingNote) timeAlive += Time.deltaTime;
+            else if (holdingNote)
+            {
+                transform.position = new Vector3(
+                    transform.position.x,
+                    _beatmapPlayer.tapTarget.position.y,
+                    transform.position.z
+                );
+            }
+
 
             distToTapTarget = Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, _beatmapPlayer.tapTarget.position.y));
 
-            if (endHoldPoint != null) updateLine();
+            if (holdEndNote != null) updateLine();
+            
+            if (noteInfo.type == noteType.holdNote && holdEndNote == null)
+            {
+                DeleteNote();
+                break;
+            }
+
 
             if (timeAlive >= _beatmapPlayer.noteOffset)
             {
-                if (noteInfo.type == noteType.tapNote || noteInfo.type == noteType.endHoldNote)
-                {
-                    if (noteInfo.type == noteType.endHoldNote) reachedEnd = true;
+                if (noteInfo.type == noteType.endHoldNote) reachedEnd = true;
 
+                if (!holdingNote)
+                {
                     transform.position = new Vector3(
-                        transform.position.x, 
-                        Mathf.Lerp(startY, _beatmapPlayer.secondTapTarget.position.y, timeAlive / (_beatmapPlayer.noteOffset * 2f)), 
+                        transform.position.x,
+                        Mathf.Lerp(startY, _beatmapPlayer.secondTapTarget.position.y, timeAlive / (_beatmapPlayer.noteOffset * 2f)),
                         transform.position.z
                     );
+                }
 
-                    if (timeAlive > _beatmapPlayer.noteOffset + _beatmapPlayer.noteOffset * 0.2f)
-                    {
-                        _beatmapPlayer.points--;
-                        _beatmapPlayer.pointCounter.text = _beatmapPlayer.points.ToString();
-                        _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
-                        Destroy(gameObject);
-                        break;
-                    }
+
+                if (timeAlive > _beatmapPlayer.noteOffset + _beatmapPlayer.noteOffset * 0.2f && !holdingNote)
+                {
+                    if (noteInfo.type == noteType.holdNote && holdEndNote != null) 
+                        holdEndNote.DeleteNote();
+                    DeleteNote();
+                    break;
                 }
             }
             else
             {
                 if (_beatmapPlayer == null) Debug.LogWarning("GAMIGN!");
-                    transform.position = new Vector3(transform.position.x, Mathf.Lerp(startY, _beatmapPlayer.tapTarget.position.y, timeAlive / _beatmapPlayer.noteOffset), transform.position.z);
+
+                transform.position = new Vector3(
+                    transform.position.x,
+                    Mathf.Lerp(startY, _beatmapPlayer.tapTarget.position.y, timeAlive / _beatmapPlayer.noteOffset), 
+                    transform.position.z
+                );
             }
             if (distToTapTarget <= _beatmapPlayer.noteTapDistance)
             {
-                spriteRenderer.color = Color.white;
+               // spriteRenderer.color = Color.white;
 
                 tappable = true;
             }
@@ -99,13 +119,21 @@ public class NoteHandler : MonoBehaviour
         }
     }
 
+    void DeleteNote()
+    {
+        _beatmapPlayer.missedNotes++;
+        _beatmapPlayer.missedNoteCounter.text = _beatmapPlayer.missedNotes.ToString();
+        _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
+        Destroy(gameObject);
+    }
+
     void updateLine()
     {
-        if (endHoldPoint != null)
+        if (holdEndNote != null)
         {
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1,endHoldPoint.position);
+            lineRenderer.SetPosition(1, holdEndNote.transform.position);
         }
     }
 }
