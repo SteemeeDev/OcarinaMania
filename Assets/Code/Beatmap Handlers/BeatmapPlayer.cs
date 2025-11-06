@@ -18,7 +18,8 @@ public class BeatmapPlayer : MonoBehaviour
     [SerializeField] GameObject notePrefab;
     public Column[] columns;
     
-    AudioSource audioSource;
+    [SerializeField] AudioSource musicSource;
+    public AudioSource errorSound;
 
     [SerializeField] int mapIndex; // Index of the map we want to play
     [SerializeField] Beatmap currentBeatmap;
@@ -38,11 +39,6 @@ public class BeatmapPlayer : MonoBehaviour
     public Transform secondTapTarget;
 
     Coroutine playerRoutine;
-
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void Update()
     {
@@ -108,13 +104,29 @@ public class BeatmapPlayer : MonoBehaviour
         }
     }
 
+    float NoteScore(float distance)
+    {
+        float distancePercentage = distance / noteTapDistance;
+        // Gulp 75% - 5 points
+        if (distancePercentage >= 0.75f) return 5f;
+        // Alr 40% - 10 points
+        if (distancePercentage >= 0.4f) return 10f;
+        // Fine 20% - 30 points
+        if (distancePercentage >= 0.2f) return 30f;
+        // Awesome 7.5% - 50 points
+        if (distancePercentage >= 0.075f) return 50f;
+        // Perfect 0%  - 100 points
+        return 100f;
+    }
+
     void DeleteNote(int columnIndex, int noteIndex)
     {
         GameObject temp = columns[columnIndex].notes[noteIndex].gameObject;
-        temp.GetComponent<NoteHandler>().StopAllCoroutines();
+        NoteHandler tempNH = temp.GetComponent<NoteHandler>();
+        points += NoteScore(tempNH.distToTapTarget);
+        tempNH.StopAllCoroutines();
         columns[columnIndex].notes.RemoveAt(noteIndex);
         Destroy(temp);
-        points++;
         pointCounter.text = points.ToString();
     }
 
@@ -131,7 +143,7 @@ public class BeatmapPlayer : MonoBehaviour
 
         currentBeatmap = manager.beatMaps[beatmapIndex];
 
-        audioSource.clip = Resources.Load<AudioClip>(
+        musicSource.clip = Resources.Load<AudioClip>(
             "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile)
         );
 
@@ -142,7 +154,7 @@ public class BeatmapPlayer : MonoBehaviour
 
         double audioPlayTime = AudioSettings.dspTime + currentBeatmap.audioLeadIn / 1000 + noteOffset;
 
-        audioSource.PlayScheduled(audioPlayTime);
+        musicSource.PlayScheduled(audioPlayTime);
 
         while (timeElapsed < beatmapLength)
         {
