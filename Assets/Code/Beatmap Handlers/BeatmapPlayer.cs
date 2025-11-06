@@ -46,6 +46,14 @@ public class BeatmapPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            for (int i = 0; i < manager.beatMapNames.Length; i++)
+            {
+                manager.ParseBeatmap(Application.dataPath + @"/Beatmaps/" + manager.beatMapNames[i]);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (playerRoutine != null) StopCoroutine(playerRoutine);

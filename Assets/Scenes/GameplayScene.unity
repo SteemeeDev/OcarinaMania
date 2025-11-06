@@ -549,7 +549,7 @@ MonoBehaviour:
   - {fileID: 1706190354}
   - {fileID: 526129037}
   - {fileID: 74927102}
-  keyBinds: 64000000660000006a0000006b000000
+  keyBinds: 6c0000006b000000690000006a000000
   notePrefab: {fileID: 2690701244755655337, guid: c9f275fee4ee6154db27febbba27844a, type: 3}
   columns:
   - {fileID: 2057612081}

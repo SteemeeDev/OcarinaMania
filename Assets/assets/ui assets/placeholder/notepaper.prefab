@@ -268,7 +268,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655270929664326238}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a8b91833a08ced247861650470926055, type: 2}
   m_CullingMode: 0
@@ -302,6 +302,8 @@ MonoBehaviour:
   canvases:
   - {fileID: 8592766835149100372}
   - {fileID: 4399756432523814903}
+  minRotation: -30
+  maxRotation: 30
 --- !u!1 &2790370650986631171
 GameObject:
   m_ObjectHideFlags: 0

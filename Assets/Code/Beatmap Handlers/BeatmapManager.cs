@@ -4,17 +4,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
 public class BeatmapManager : MonoBehaviour
 {
-    [SerializeField] string[] beatMapNames;
+    public string[] beatMapNames;
     public List<Beatmap> beatMaps = new List<Beatmap>();
 
     private void Start()
     {
-        for (int i = 0; i < beatMapNames.Length; i++)
-        {
-            ParseBeatmap(Application.dataPath + @"/Beatmaps/" + beatMapNames[i]);
-        }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void ParseBeatmap(string filePath)
