@@ -6,6 +6,7 @@ using UnityEngine;
 public class NoteHandler : MonoBehaviour
 {
     public BeatmapPlayer _beatmapPlayer;
+    public float distToTapTarget;
 
     public NoteInfo noteInfo;
     float timeAlive = 0f;
@@ -48,21 +49,12 @@ public class NoteHandler : MonoBehaviour
         yield return new WaitForSeconds(delayMS / 1000);
 
         float startY = transform.position.y;
-        float distToTapTarget;
 
         while (true)
         {
             if (this == null) break;
 
             if (!holdingNote) timeAlive += Time.deltaTime;
-            else if (holdingNote)
-            {
-                transform.position = new Vector3(
-                    transform.position.x,
-                    _beatmapPlayer.tapTarget.position.y,
-                    transform.position.z
-                );
-            }
 
 
             distToTapTarget = Vector2.Distance(new Vector2(0, transform.position.y), new Vector2(0, _beatmapPlayer.tapTarget.position.y));
@@ -80,6 +72,7 @@ public class NoteHandler : MonoBehaviour
             {
                 if (noteInfo.type == noteType.endHoldNote) reachedEnd = true;
 
+
                 if (!holdingNote)
                 {
                     transform.position = new Vector3(
@@ -88,7 +81,6 @@ public class NoteHandler : MonoBehaviour
                         transform.position.z
                     );
                 }
-
 
                 if (timeAlive > _beatmapPlayer.noteOffset + _beatmapPlayer.noteOffset * 0.2f && !holdingNote)
                 {
@@ -108,13 +100,19 @@ public class NoteHandler : MonoBehaviour
                     transform.position.z
                 );
             }
-            if (distToTapTarget <= _beatmapPlayer.noteTapDistance)
-            {
-               // spriteRenderer.color = Color.white;
 
-                tappable = true;
+
+            if (distToTapTarget <= _beatmapPlayer.noteTapDistance) tappable = true;
+
+            if (holdingNote)
+            {
+                transform.position = new Vector3(
+                    transform.position.x,
+                    _beatmapPlayer.tapTarget.position.y,
+                    transform.position.z
+                );
             }
-            
+
             yield return null;
         }
     }
@@ -124,6 +122,7 @@ public class NoteHandler : MonoBehaviour
         _beatmapPlayer.missedNotes++;
         _beatmapPlayer.missedNoteCounter.text = _beatmapPlayer.missedNotes.ToString();
         _beatmapPlayer.columns[noteInfo.columnIndex].notes.Remove(this);
+        _beatmapPlayer.errorSound.PlayOneShot(_beatmapPlayer.errorSound.clip); 
         Destroy(gameObject);
     }
 
