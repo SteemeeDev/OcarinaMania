@@ -12,11 +12,14 @@ public class BeatmapManager : MonoBehaviour
     public Sprite[] albumCovers;
     public int mapIndex;
     public List<Beatmap> beatMaps = new List<Beatmap>();
+    public AudioClip[] music;
     [SerializeField] PaperStackHandler paperStack;
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        music = new AudioClip[beatMapNames.Length];
 
         for (int i = 0; i < beatMapNames.Length; i++)
         {
@@ -259,7 +262,9 @@ public class BeatmapManager : MonoBehaviour
         reader.Close();
 
         beatmapObj.albumCover = albumCovers[beatMaps.Count];
-
+        music[beatMaps.Count] = Resources.Load<AudioClip>(
+            "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + beatmapObj.musicFile)
+        );
         beatMaps.Add(beatmapObj);
     }
 }

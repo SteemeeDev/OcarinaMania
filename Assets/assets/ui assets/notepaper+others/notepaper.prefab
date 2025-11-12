@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 1344513049194004534}
   - component: {fileID: 5805293582631683396}
   m_Layer: 5
-  m_Name: title
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -461,8 +461,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Titlecard
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
-  m_sharedMaterial: {fileID: 1473937876066529352, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 308ab6cc1cc642349b009c110350f5ef, type: 2}
+  m_sharedMaterial: {fileID: 7304590021372050842, guid: 308ab6cc1cc642349b009c110350f5ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.5
+  m_fontSize: 26.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -986,7 +986,7 @@ GameObject:
   - component: {fileID: 4920615637261629391}
   - component: {fileID: 4244076676050442292}
   m_Layer: 5
-  m_Name: titletext
+  m_Name: TitleCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

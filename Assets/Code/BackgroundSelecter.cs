@@ -12,15 +12,16 @@ public class BackgroundSelecter : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         ChooseBackground();
-        StartCoroutine(FadeIn(5f));
+        StartCoroutine(FadeIn(0.5f, 0.2f));
     }
+
 
     void ChooseBackground()
     {
         spriteRenderer.sprite = backgrounds[Random.Range(0, backgrounds.Length)];
     }
 
-    IEnumerator FadeIn(float fadeTime)
+    public IEnumerator FadeIn(float fadeTime, float fadeAmount)
     {
         float elapsed = 0;
 
@@ -28,11 +29,11 @@ public class BackgroundSelecter : MonoBehaviour
         {
             elapsed += Time.deltaTime;
 
-            spriteRenderer.color = new Color(1, 1, 1, elapsed / fadeTime);
+            spriteRenderer.color = new Color(1, 1, 1, elapsed / fadeTime * fadeAmount);
 
             yield return null;
         }
 
-        spriteRenderer.color = new Color(1, 1, 1, 1);
+        spriteRenderer.color = new Color(1, 1, 1, fadeAmount);
     }
 }

@@ -834,6 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  backgroundSelecter: {fileID: 2094398779}
   points: 0
   pointCounter: {fileID: 728024031}
   missedNotes: 0
@@ -852,6 +853,7 @@ MonoBehaviour:
   - {fileID: 1244930383}
   musicSource: {fileID: 301058938}
   errorSound: {fileID: 301058939}
+  timeElapsed: 0
   noteOffset: 0.5
   noteTapDistance: 1.5
   tapTarget: {fileID: 1354041887}
@@ -4868,6 +4870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  backgroundSelecter: {fileID: 0}
   points: 0
   pointCounter: {fileID: 1803432442}
   missedNotes: 0
@@ -4886,6 +4889,7 @@ MonoBehaviour:
   - {fileID: 1831538042}
   musicSource: {fileID: 1920532164}
   errorSound: {fileID: 1920532163}
+  timeElapsed: 0
   noteOffset: 0.5
   noteTapDistance: 1.5
   tapTarget: {fileID: 1602929738}
