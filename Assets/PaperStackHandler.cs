@@ -48,7 +48,7 @@ public class PaperStackHandler : MonoBehaviour
             }
 
             AudioClip newClip = Resources.Load<AudioClip>(
-                "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + beatmapManager.beatMaps[selectedIndex].musicFile)
+                "Audios/" + beatmapManager.beatMaps[selectedIndex].musicFile.Replace(".mp3", "")
             );
 
             if (newClip != musicPreview.clip) { 

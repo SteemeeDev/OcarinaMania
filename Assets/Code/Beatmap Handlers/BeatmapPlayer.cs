@@ -163,7 +163,9 @@ public class BeatmapPlayer : MonoBehaviour
 
         currentBeatmap = manager.beatMaps[manager.mapIndex];
 
-        musicSource.clip = manager.music[manager.mapIndex];
+        musicSource.clip = Resources.Load<AudioClip>(
+                "Audios/" + currentBeatmap.musicFile.Replace(".mp3", "")
+            );
 
         float beatmapLength = currentBeatmap.notes[currentBeatmap.notes.Count - 1].time;
         timeElapsed = 0f;

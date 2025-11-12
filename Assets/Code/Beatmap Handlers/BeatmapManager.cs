@@ -23,7 +23,7 @@ public class BeatmapManager : MonoBehaviour
 
         for (int i = 0; i < beatMapNames.Length; i++)
         {
-            ParseBeatmap(Application.dataPath + @"/Beatmaps/" + beatMapNames[i]);
+            ParseBeatmap(Application.streamingAssetsPath + @"/Beatmaps/" + beatMapNames[i]);
         }
     }
 
@@ -263,7 +263,7 @@ public class BeatmapManager : MonoBehaviour
 
         beatmapObj.albumCover = albumCovers[beatMaps.Count];
         music[beatMaps.Count] = Resources.Load<AudioClip>(
-            "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + beatmapObj.musicFile)
+            "Audios/" + beatmapObj.musicFile.Replace(".mp3", "")
         );
         beatMaps.Add(beatmapObj);
     }
