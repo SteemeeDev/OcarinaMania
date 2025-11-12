@@ -21,7 +21,6 @@ public class BeatmapPlayer : MonoBehaviour
     [SerializeField] AudioSource musicSource;
     public AudioSource errorSound;
 
-    [SerializeField] int mapIndex; // Index of the map we want to play
     [SerializeField] Beatmap currentBeatmap;
 
     [Header("Gameplay settings")]
@@ -40,6 +39,15 @@ public class BeatmapPlayer : MonoBehaviour
 
     Coroutine playerRoutine;
 
+    private void Start()
+    {
+        manager = FindFirstObjectByType<BeatmapManager>();
+
+        if (playerRoutine != null) StopCoroutine(playerRoutine);
+        currentBeatmap = manager.beatMaps[manager.mapIndex];
+        playerRoutine = StartCoroutine(PlayBeatmap());
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -53,8 +61,8 @@ public class BeatmapPlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (playerRoutine != null) StopCoroutine(playerRoutine);
-            currentBeatmap = manager.beatMaps[mapIndex];
-            playerRoutine = StartCoroutine(PlayBeatmap(mapIndex));
+            currentBeatmap = manager.beatMaps[manager.mapIndex];
+            playerRoutine = StartCoroutine(PlayBeatmap());
         }
 
         for (int i = 0; i < keys.Length; i++)
@@ -130,7 +138,7 @@ public class BeatmapPlayer : MonoBehaviour
         pointCounter.text = points.ToString();
     }
 
-    public IEnumerator PlayBeatmap(int beatmapIndex)
+    public IEnumerator PlayBeatmap()
     {
         for (int i = 0; i < columns.Length; i++)
         {
@@ -141,7 +149,7 @@ public class BeatmapPlayer : MonoBehaviour
             }
         }
 
-        currentBeatmap = manager.beatMaps[beatmapIndex];
+        currentBeatmap = manager.beatMaps[manager.mapIndex];
 
         musicSource.clip = Resources.Load<AudioClip>(
             "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile)

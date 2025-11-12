@@ -6,16 +6,19 @@ using UnityEngine;
 public class NoteHandler : MonoBehaviour
 {
     public BeatmapPlayer _beatmapPlayer;
-    public float distToTapTarget;
-
     public NoteInfo noteInfo;
+    
+    public float distToTapTarget;
     float timeAlive = 0f;
 
     SpriteRenderer spriteRenderer;
-
     LineRenderer lineRenderer;
+
+    [SerializeField] Sprite[] sprites;
+
     bool reachedEnd = false;
     public bool tappable = false;
+
     [Header("Hold note specific")]
     public NoteHandler holdEndNote;
     public bool holdingNote;
@@ -32,17 +35,17 @@ public class NoteHandler : MonoBehaviour
 
         if (noteInfo.type == noteType.holdNote)
         {
-            spriteRenderer.color = Color.yellow;
+            spriteRenderer.sprite = sprites[0];
             name = "Hold Note";
         }
         else if (noteInfo.type == noteType.tapNote)
         {
-            spriteRenderer.color = Color.blue;
+            spriteRenderer.sprite = sprites[1];
             name = "Normal Note";
         }
         if (noteInfo.type == noteType.endHoldNote)
         {
-            spriteRenderer.color = Color.yellow * 0.5f;
+            spriteRenderer.sprite = sprites[2];
             name = "Hold End Note";
         }
            

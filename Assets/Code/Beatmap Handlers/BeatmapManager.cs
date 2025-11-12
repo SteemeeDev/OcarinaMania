@@ -2,18 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 
 public class BeatmapManager : MonoBehaviour
 {
     public string[] beatMapNames;
+    public Sprite[] albumCovers;
+    public int mapIndex;
     public List<Beatmap> beatMaps = new List<Beatmap>();
+    [SerializeField] PaperStackHandler paperStack;
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        for (int i = 0; i < beatMapNames.Length; i++)
+        {
+            ParseBeatmap(Application.dataPath + @"/Beatmaps/" + beatMapNames[i]);
+        }
     }
+
 
     public void ParseBeatmap(string filePath)
     {
@@ -66,7 +76,7 @@ public class BeatmapManager : MonoBehaviour
 
             string key = splitLine[0].Trim();
             string value = splitLine[1].Trim();
-
+            
             Debug.Log($"{key} : {value}");
 
             switch (key)
@@ -224,6 +234,8 @@ public class BeatmapManager : MonoBehaviour
                         endTime = endTime
                     });
 
+                    if (time > 1000) beatmapObj.length = time;
+
                     posX = -999;
                     posY = -999;
                     time = -999f;
@@ -245,6 +257,8 @@ public class BeatmapManager : MonoBehaviour
         }
 
         reader.Close();
+
+        beatmapObj.albumCover = albumCovers[beatMaps.Count];
 
         beatMaps.Add(beatmapObj);
     }

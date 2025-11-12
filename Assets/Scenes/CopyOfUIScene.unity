@@ -626,9 +626,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatMapNames:
+  - antiPLUR - Runengon (Raveille) [Easy].osu
+  - antiPLUR - Runengon (Raveille) [Normal].osu
+  - Banya - Beethoven Virus (GunzEX) [SDO Hard Lv.18].osu
+  - Claude Debussy - Suite bergamasque III. Clair de lune (Performed by Moura Lympany)
+    (Disguise) [landscape fantasy].osu
+  - DJ OKAWARI - Flower Dance (Narcissu) [CS' Hard].osu
+  - DJ OKAWARI - Flower Dance (Narcissu) [CS' Normal].osu
   - Dragon Force - Through the Fire and Flames (Valdez20) [Insane].osu
+  - Koji Kondo - Great Fairy's Fountain (Shyman Jr) [[4K] Easy].osu
+  - Koji Kondo - Great Fairy's Fountain (Shyman Jr) [[4K] Hard].osu
+  - Koji Kondo - Great Fairy's Fountain (Shyman Jr) [[4K] Normal].osu
+  - THE ORAL CIGARETTES - Kyouran Hey Kids!! (Lina Sintyadewi) [Draw's Hard].osu
+  - THE ORAL CIGARETTES - Kyouran Hey Kids!! (Lina Sintyadewi) [Easy].osu
+  - THE ORAL CIGARETTES - Kyouran Hey Kids!! (Lina Sintyadewi) [Maximum].osu
+  - THE ORAL CIGARETTES - Kyouran Hey Kids!! (Lina Sintyadewi) [Normal].osu
+  - xi - .357 Magnum (Akali) [4K Another].osu
+  - xi - .357 Magnum (Akali) [4K Hard].osu
+  - xi - .357 Magnum (Akali) [4K Hyper].osu
+  - xi - .357 Magnum (Akali) [4K Normal].osu
+  - xi - FREEDOM DiVE (razlteh) [4K Another].osu
+  - xi - FREEDOM DiVE (razlteh) [4K Hyper].osu
+  - xi - FREEDOM DiVE (razlteh) [4K Normal].osu
   - xi - Happy End of the World (Blocko) [4K Easy].osu
   - xi - Happy End of the World (Blocko) [4K Insane].osu
+  albumCovers:
+  - {fileID: 21300000, guid: ea7fe9b6be02f9744b4947b27473ae11, type: 3}
+  - {fileID: 21300000, guid: ea7fe9b6be02f9744b4947b27473ae11, type: 3}
+  - {fileID: 21300000, guid: 4d066d1ed83c8b94db734273dba28c2a, type: 3}
+  - {fileID: 21300000, guid: 7bcdd8c54993ec34caf518fb8abd3dd0, type: 3}
+  - {fileID: 21300000, guid: eb3fbd3ceae53644aa4f0883942a38c2, type: 3}
+  - {fileID: 21300000, guid: eb3fbd3ceae53644aa4f0883942a38c2, type: 3}
+  - {fileID: 21300000, guid: c24ff8d6c0ac43d4b8678a5a5b0ca88d, type: 3}
+  - {fileID: 21300000, guid: 77e83b2a3c6661c4b91e4046e9bc5b38, type: 3}
+  - {fileID: 21300000, guid: 77e83b2a3c6661c4b91e4046e9bc5b38, type: 3}
+  - {fileID: 21300000, guid: 77e83b2a3c6661c4b91e4046e9bc5b38, type: 3}
+  - {fileID: 21300000, guid: 91836e5107de7a84399bbd729ac0ea18, type: 3}
+  - {fileID: 21300000, guid: 91836e5107de7a84399bbd729ac0ea18, type: 3}
+  - {fileID: 21300000, guid: 91836e5107de7a84399bbd729ac0ea18, type: 3}
+  - {fileID: 21300000, guid: 91836e5107de7a84399bbd729ac0ea18, type: 3}
+  - {fileID: 21300000, guid: 7a6087ab29307c54388ca63c9ebbcd97, type: 3}
+  - {fileID: 21300000, guid: 7a6087ab29307c54388ca63c9ebbcd97, type: 3}
+  - {fileID: 21300000, guid: 7a6087ab29307c54388ca63c9ebbcd97, type: 3}
+  - {fileID: 21300000, guid: 7a6087ab29307c54388ca63c9ebbcd97, type: 3}
+  - {fileID: 21300000, guid: 3951b457dc1928b44a616950eca6cb80, type: 3}
+  - {fileID: 21300000, guid: 3951b457dc1928b44a616950eca6cb80, type: 3}
+  - {fileID: 21300000, guid: 3951b457dc1928b44a616950eca6cb80, type: 3}
+  - {fileID: 21300000, guid: a8dce8178c6fa7843a63b31c11b0292d, type: 3}
+  - {fileID: 21300000, guid: a8dce8178c6fa7843a63b31c11b0292d, type: 3}
+  paperStack: {fileID: 1486020057}
 --- !u!4 &952206791
 Transform:
   m_ObjectHideFlags: 0
@@ -709,8 +755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paperPrefab: {fileID: 1655270929664326238, guid: 04d84c2697e56c943b99b0c05369b89c, type: 3}
+  BeatmapCount: 0
   beatmapManager: {fileID: 952206790}
-  papers: []
   maxPaperStack: 20
   selectedIndex: 0
   amountOfPaper: 0

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public struct Beatmap
 {
@@ -9,6 +10,8 @@ public struct Beatmap
     public string musicFile;
     public float audioLeadIn;
     public string difficulty;
+
+    public Sprite albumCover;
 
     public List<NoteInfo> notes;
 }
