@@ -99,8 +99,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _beatmapPlayer: {fileID: 0}
-  endHoldPoint: {fileID: 0}
+  distToTapTarget: 0
+  sprites:
+  - {fileID: 21300000, guid: dcd5d4a75c9109840a2a1347678ac585, type: 3}
+  - {fileID: 21300000, guid: 73130a42cd6c61c4cab810c948a7059d, type: 3}
+  - {fileID: 21300000, guid: eecb1b5f1efb6da4483af566c6623db5, type: 3}
   tappable: 0
+  holdEndNote: {fileID: 0}
+  holdingNote: 0
 --- !u!120 &7447832722281318869
 LineRenderer:
   serializedVersion: 2

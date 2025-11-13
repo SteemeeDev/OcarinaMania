@@ -95,12 +95,12 @@ GameObject:
   - component: {fileID: 8785021156062712079}
   - component: {fileID: 7447835993969521272}
   m_Layer: 0
-  m_Name: album cover
+  m_Name: album cover (UNUSED!)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8785021156062712079
 Transform:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c0f9e146b9d95e244919a10dea6ea077, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -268,7 +268,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655270929664326238}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a8b91833a08ced247861650470926055, type: 2}
   m_CullingMode: 0
@@ -304,6 +304,12 @@ MonoBehaviour:
   - {fileID: 4399756432523814903}
   minRotation: -30
   maxRotation: 30
+  title: {fileID: 5805293582631683396}
+  difficulty: {fileID: 7319671977350488424}
+  length: {fileID: 5047117390666994626}
+  artist: {fileID: 6122733150176962532}
+  charter: {fileID: 2627592205746147895}
+  albumCover: {fileID: 8105615257045489161}
 --- !u!1 &2790370650986631171
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +406,7 @@ GameObject:
   - component: {fileID: 1344513049194004534}
   - component: {fileID: 5805293582631683396}
   m_Layer: 5
-  m_Name: title
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -453,10 +459,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Titlecard
+  m_text: New Titlecard
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
-  m_sharedMaterial: {fileID: 1473937876066529352, guid: 93a9bf7b48d8bde4d91b2966fca0021c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 308ab6cc1cc642349b009c110350f5ef, type: 2}
+  m_sharedMaterial: {fileID: 7304590021372050842, guid: 308ab6cc1cc642349b009c110350f5ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -480,7 +486,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.5
+  m_fontSize: 26.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -534,7 +540,7 @@ GameObject:
   - component: {fileID: 4522066430003364254}
   - component: {fileID: 6122733150176962532}
   m_Layer: 0
-  m_Name: chartinfo (2)
+  m_Name: Artist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -656,6 +662,78 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &5911312367162299634
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3116319011820084913}
+  - component: {fileID: 4710076602955768810}
+  - component: {fileID: 8105615257045489161}
+  m_Layer: 5
+  m_Name: Album cover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3116319011820084913
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911312367162299634}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6955748447548021485}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.5, y: -1.4026}
+  m_SizeDelta: {x: 1.6232, y: 1.6342}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4710076602955768810
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911312367162299634}
+  m_CullTransparentMesh: 1
+--- !u!114 &8105615257045489161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911312367162299634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c0f9e146b9d95e244919a10dea6ea077, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &6399361501152968248
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +746,7 @@ GameObject:
   - component: {fileID: 6703096488286089883}
   - component: {fileID: 5047117390666994626}
   m_Layer: 0
-  m_Name: chartinfo (1)
+  m_Name: Length
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -908,7 +986,7 @@ GameObject:
   - component: {fileID: 4920615637261629391}
   - component: {fileID: 4244076676050442292}
   m_Layer: 5
-  m_Name: titletext
+  m_Name: TitleCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -927,6 +1005,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6976819341189677167}
+  - {fileID: 3116319011820084913}
   m_Father: {fileID: 9003043263375348418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1145,7 +1224,7 @@ GameObject:
   - component: {fileID: 2468750753822781718}
   - component: {fileID: 7319671977350488424}
   m_Layer: 0
-  m_Name: chartinfo
+  m_Name: Difficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1279,7 +1358,7 @@ GameObject:
   - component: {fileID: 1499085580440676369}
   - component: {fileID: 2627592205746147895}
   m_Layer: 0
-  m_Name: chartinfo (3)
+  m_Name: Charter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

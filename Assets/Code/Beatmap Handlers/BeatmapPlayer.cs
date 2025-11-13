@@ -4,11 +4,13 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class BeatmapPlayer : MonoBehaviour
 {
     [SerializeField] BeatmapManager manager; // The beatmap parser
+    [SerializeField] BackgroundSelecter backgroundSelecter;
     public float points; // Placeholder for player scores
     public TMP_Text pointCounter; // Text object to show scores
     public int missedNotes;
@@ -21,8 +23,8 @@ public class BeatmapPlayer : MonoBehaviour
     [SerializeField] AudioSource musicSource;
     public AudioSource errorSound;
 
-    [SerializeField] int mapIndex; // Index of the map we want to play
     [SerializeField] Beatmap currentBeatmap;
+    public float timeElapsed = 0f;
 
     [Header("Gameplay settings")]
     /// <summary>
@@ -40,8 +42,26 @@ public class BeatmapPlayer : MonoBehaviour
 
     Coroutine playerRoutine;
 
+    private void Start()
+    {
+        manager = FindFirstObjectByType<BeatmapManager>();
+
+        if (playerRoutine != null) StopCoroutine(playerRoutine);
+        currentBeatmap = manager.beatMaps[manager.mapIndex];
+        playerRoutine = StartCoroutine(PlayBeatmap());
+    }
+
     private void Update()
     {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            Time.timeScale = 20f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             for (int i = 0; i < manager.beatMapNames.Length; i++)
@@ -53,8 +73,8 @@ public class BeatmapPlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (playerRoutine != null) StopCoroutine(playerRoutine);
-            currentBeatmap = manager.beatMaps[mapIndex];
-            playerRoutine = StartCoroutine(PlayBeatmap(mapIndex));
+            currentBeatmap = manager.beatMaps[manager.mapIndex];
+            playerRoutine = StartCoroutine(PlayBeatmap());
         }
 
         for (int i = 0; i < keys.Length; i++)
@@ -130,7 +150,7 @@ public class BeatmapPlayer : MonoBehaviour
         pointCounter.text = points.ToString();
     }
 
-    public IEnumerator PlayBeatmap(int beatmapIndex)
+    public IEnumerator PlayBeatmap()
     {
         for (int i = 0; i < columns.Length; i++)
         {
@@ -141,14 +161,14 @@ public class BeatmapPlayer : MonoBehaviour
             }
         }
 
-        currentBeatmap = manager.beatMaps[beatmapIndex];
+        currentBeatmap = manager.beatMaps[manager.mapIndex];
 
         musicSource.clip = Resources.Load<AudioClip>(
-            "Audios/" + Path.GetFileNameWithoutExtension(Application.dataPath + "/Beatmaps/Resources/Audios/" + currentBeatmap.musicFile)
-        );
+                "Audios/" + currentBeatmap.musicFile.Replace(".mp3", "")
+            );
 
         float beatmapLength = currentBeatmap.notes[currentBeatmap.notes.Count - 1].time;
-        float timeElapsed = 0f;
+        timeElapsed = 0f;
 
         int noteIndex = 0;
 
@@ -156,13 +176,13 @@ public class BeatmapPlayer : MonoBehaviour
 
         musicSource.PlayScheduled(audioPlayTime);
 
-        while (timeElapsed < beatmapLength)
+        while (timeElapsed < beatmapLength && currentBeatmap.notes.Count - 1 > noteIndex)
         {
             if (AudioSettings.dspTime >= audioPlayTime - noteOffset)
             {
                 timeElapsed += Time.deltaTime;
 
-                while (timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
+                while (currentBeatmap.notes.Count - 1 > noteIndex && timeElapsed * 1000 > currentBeatmap.notes[noteIndex].time)
                 {
                     SpawnNote(noteIndex, timeElapsed);
                     noteIndex++;
@@ -170,6 +190,17 @@ public class BeatmapPlayer : MonoBehaviour
             }
             yield return null;
         }
+        if (backgroundSelecter != null)
+        {
+            StartCoroutine(backgroundSelecter.FadeIn(4f, 1f));
+
+            Invoke("Endscreen", 8f);
+        }
+    }
+
+    void Endscreen()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     void SpawnNote(int noteIndex, float elapsed)
