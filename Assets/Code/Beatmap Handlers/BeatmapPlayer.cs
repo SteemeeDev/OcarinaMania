@@ -22,6 +22,7 @@ public class BeatmapPlayer : MonoBehaviour
     
     [SerializeField] AudioSource musicSource;
     public AudioSource errorSound;
+    [SerializeField] AudioSource hitSound;
 
     [SerializeField] Beatmap currentBeatmap;
     public float timeElapsed = 0f;
@@ -44,7 +45,7 @@ public class BeatmapPlayer : MonoBehaviour
 
     private void Start()
     {
-        manager = FindFirstObjectByType<BeatmapManager>();
+        manager = BeatmapManager.Instance;
 
         if (playerRoutine != null) StopCoroutine(playerRoutine);
         currentBeatmap = manager.beatMaps[manager.mapIndex];
@@ -127,15 +128,15 @@ public class BeatmapPlayer : MonoBehaviour
     float NoteScore(float distance)
     {
         float distancePercentage = distance / noteTapDistance;
-        // Gulp 75% - 5 points
+        // Gulp 100% - 5 points
         if (distancePercentage >= 0.75f) return 5f;
-        // Alr 40% - 10 points
+        // Alr 75% - 10 points
         if (distancePercentage >= 0.4f) return 10f;
-        // Fine 20% - 30 points
+        // Fine 40% - 30 points
         if (distancePercentage >= 0.2f) return 30f;
-        // Awesome 7.5% - 50 points
+        // Awesome 20% - 50 points
         if (distancePercentage >= 0.075f) return 50f;
-        // Perfect 0%  - 100 points
+        // Perfect 7.5%  - 100 points
         return 100f;
     }
 
@@ -143,7 +144,12 @@ public class BeatmapPlayer : MonoBehaviour
     {
         GameObject temp = columns[columnIndex].notes[noteIndex].gameObject;
         NoteHandler tempNH = temp.GetComponent<NoteHandler>();
-        points += NoteScore(tempNH.distToTapTarget);
+        float score = NoteScore(tempNH.distToTapTarget);
+        points += score;
+
+        if (score > 30f) tempNH.SpawnParticle();
+        hitSound.PlayOneShot(hitSound.clip);
+
         tempNH.StopAllCoroutines();
         columns[columnIndex].notes.RemoveAt(noteIndex);
         Destroy(temp);
@@ -165,7 +171,7 @@ public class BeatmapPlayer : MonoBehaviour
 
         musicSource.clip = Resources.Load<AudioClip>(
                 "Audios/" + currentBeatmap.musicFile.Replace(".mp3", "")
-            );
+        );
 
         float beatmapLength = currentBeatmap.notes[currentBeatmap.notes.Count - 1].time;
         timeElapsed = 0f;

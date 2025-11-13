@@ -21,13 +21,14 @@ public class PaperStackHandler : MonoBehaviour
 
     private void Start()
     {
+        beatmapManager = BeatmapManager.Instance;
         musicPreview = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.L))
         {
             GameObject paper = Instantiate(paperPrefab);
             Paper paperScript = paper.GetComponent<Paper>();
@@ -62,7 +63,7 @@ public class PaperStackHandler : MonoBehaviour
 
         }
 
-        if (papers.Count > 0 && Input.GetKeyDown(KeyCode.E))
+        if (papers.Count > 0 && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.K)))
         {
             beatmapManager.mapIndex = selectedIndex - 1;
             SceneManager.LoadScene(2);

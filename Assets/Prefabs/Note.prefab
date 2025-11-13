@@ -104,6 +104,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dcd5d4a75c9109840a2a1347678ac585, type: 3}
   - {fileID: 21300000, guid: 73130a42cd6c61c4cab810c948a7059d, type: 3}
   - {fileID: 21300000, guid: eecb1b5f1efb6da4483af566c6623db5, type: 3}
+  leafParticle: {fileID: 5296976026004015949, guid: d84604a5cf5788e47adae2756c709b98, type: 3}
   tappable: 0
   holdEndNote: {fileID: 0}
   holdingNote: 0

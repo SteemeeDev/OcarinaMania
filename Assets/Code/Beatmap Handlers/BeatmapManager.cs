@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class BeatmapManager : MonoBehaviour
 {
+    private static BeatmapManager _instance;
+    public static BeatmapManager Instance { get { return _instance; } }
+
     public string[] beatMapNames;
     public Sprite[] albumCovers;
     public int mapIndex;
@@ -17,7 +20,15 @@ public class BeatmapManager : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         music = new AudioClip[beatMapNames.Length];
 

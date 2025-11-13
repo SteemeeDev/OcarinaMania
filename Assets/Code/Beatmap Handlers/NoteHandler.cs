@@ -15,6 +15,7 @@ public class NoteHandler : MonoBehaviour
     LineRenderer lineRenderer;
 
     [SerializeField] Sprite[] sprites;
+    [SerializeField] GameObject leafParticle;
 
     bool reachedEnd = false;
     public bool tappable = false;
@@ -120,6 +121,11 @@ public class NoteHandler : MonoBehaviour
         }
     }
 
+    public void SpawnParticle()
+    {
+        GameObject particle = Instantiate(leafParticle);
+        particle.transform.position = transform.position;
+    }
     void DeleteNote()
     {
         _beatmapPlayer.missedNotes++;
